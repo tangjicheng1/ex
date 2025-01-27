@@ -9,7 +9,6 @@ import (
 	"go.uber.org/fx"
 )
 
-
 func NewHTTPServer(lc fx.Lifecycle) *http.Server {
 	srv := &http.Server{Addr: ":8080"}
 	lc.Append(fx.Hook{
@@ -33,6 +32,7 @@ func main() {
 	// fx.New(
 	// 	fx.Provide(NewHTTPServer),
 	// ).Run()
+	fmt.Println("Hello")
 	fx.New(
 		fx.Provide(NewHTTPServer),
 		fx.Invoke(func(*http.Server) {}),
