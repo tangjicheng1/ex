@@ -1,0 +1,292 @@
+syntax = "proto3";
+
+package pricing;
+option go_package = "ex/proto/pricing";
+
+import "google/protobuf/wrappers.proto";
+
+import "currency/currency.proto";
+import "datetime/datetime.proto";
+
+// All the prices with ON status in the map `prices` have valid datespecs
+// `schedules`:
+message PricingInfo {
+  map<int32, Price> prices = 1;
+
+  // bound to participation date
+  repeated datetime.DateSpec schedules = 2;
+
+  // bound to booking date
+  datetime.TimeRange available_period = 3;
+
+  // if true, match the first available price, do not forward match
+  bool do_not_forward = 4;
+}
+
+message Price {
+  enum PriceStatus {
+    ON = 0;
+    OFF = 1;
+    DISCONTINUED = 2;
+  }
+
+  message VeltraId {
+    string ac_h_unit_id = 1;
+    string ac_h_unit_price_id = 2;
+    repeated string r_ac_h_unit_price_ac_schedule_starting_option_ids = 3;
+  }
+
+  Unit unit = 1;
+
+  PriceStatus status = 2;
+
+  // メーカー小売価格
+  int64 list_price_e6 = 3;
+
+  // 卸値
+  int64 net_price_e6 = 4;
+
+  // supplier向け卸値
+  int64 supplier_net_price_e6 = 13;
+
+  // ベルトラが販売する時の価格、VDSのみ使用
+  int64 veltra_price_e6 = 7;
+
+  oneof commission {
+    int64 value_e6 = 5;
+    int64 rate_e6 = 6;
+  }
+
+  // for commission_value_e6
+  int64 equivalent_commission_rate_e6 = 14;
+
+  oneof veltra_commission {
+    int64 veltra_value_e6 = 8;
+    int64 veltra_rate_e6 = 9;
+  }
+
+  oneof system_charge {
+    int64 system_charge_value_e6 = 11;
+    int64 system_charge_rate_e6 = 12;
+  }
+  // for system_charge_value_e6
+  int64 equivalent_system_charge_rate_e6 = 15;
+
+  VeltraId veltra_id = 10;
+}
+
+message Unit {
+  enum UnitType {
+    AGE_ADULT_AND_CHILD = 0;
+    AGE_ADULT = 1;
+    AGE_YOUTH = 2;
+    AGE_CHILD = 3;
+    AGE_SENIOR = 4;
+    AGE_INFANT = 5;
+    AGE_STUDENT = 6;
+    AGE_HIGH_SCHOOL = 7;
+    AGE_INTERMEDIATE_SCHOOL = 8;
+    AGE_ELEMENTALY_SCHOOL = 9;
+    AGE_OBSERVER = 10;
+    AGE_ADULT_OBSERVER = 11;
+    AGE_CHILD_OBSERVER = 12;
+    AGE_RIDE_ALONG = 13;
+    AGE_ADULT_RIDE_ALONG = 14;
+    AGE_CHILD_RIDE_ALONG = 15;
+    AGE_DRIVER = 16;
+    AGE_DISABLED_ADULT = 44;
+    AGE_DISABLED_YOUTH = 45;
+    AGE_DISABLED_CHILD = 46;
+
+    // AGE_DISABLED_JP_1_ADULT = 56; // 障害者第１種
+    // AGE_DISABLED_JP_1_CHILD = 57; // 障害者第１種
+    // AGE_DISABLED_JP_2_ADULT = 58; // 障害者第２種
+    // AGE_DISABLED_JP_2_CHILD = 59; // 障害者第２種
+
+    AGE_SUPPORTER_ADULT = 56; // 介助者（大人）
+    AGE_SUPPORTER_CHILD = 57; // 介助者（子供）
+
+    TALL_CHILD = 17;
+    WEIGHT_ADULT = 18;
+    WEIGHT_LBS_ADULT = 19;
+
+    MINUTES_VEHICLES = 20;
+    HOURS_VEHICLES = 21;
+    DAYS_VEHICLES = 22;
+    WEEKS_VEHICLES = 23;
+    NIGHTS_VEHICLES = 24;
+    MINUTES_PERSONS = 25;
+    HOURS_PERSONS = 26;
+    DAYS_PERSONS = 27;
+    WEEKS_PERSONS = 28;
+    NIGHTS_PERSONS = 29;
+
+    MINUTE = 30;
+    HOUR = 31;
+    DAY = 32;
+    WEEK = 33;
+    NIGHT = 34;
+
+    ROOM = 35;
+    QUANTITY = 36;
+    CHARTER = 37;
+    BOAT = 38;
+    GROUP = 39;
+    PRINT = 40;
+
+    CHARTER_VAR = 41;
+    GROUP_VAR = 42;
+    ROOM_VAR = 43;
+    BOAT_VAR = 47;
+
+    PET = 48;
+    PET_CAT =49;
+    PET_DOG = 50;
+    PET_DOG_S = 51;
+    PET_DOG_M = 52;
+    PET_DOG_L = 53;
+    PET_DOG_XL = 54;
+    PET_OTHER = 55;
+  }
+
+  // TODO: 以下3つはbooking ruleかも
+  enum IncludeCheapestPrice {
+    // DBに定義されているが正体不明. by.ベルトラAPIチーム  TODO
+    NONE = 0;
+    // P/F側での扱い方を検討する必要がある
+    NO = 1;
+    YES = 2;
+  }
+
+  UnitType unit_type = 1;
+  UnitRange unit_range = 2;
+
+  // 催行予約数に含めるかどうか
+  bool include_capacity = 3;
+
+  // 最安値対象かどうか(大人$100,子供$50の場合、子供が最安値対象外の場合は最低価格が$100になる)
+  IncludeCheapestPrice include_cheapest_price = 4;
+
+  // 他のユニットの選択が必要かどうか（＝このユニットだけで予約できるかどうか）
+  bool can_be_booking_independ = 5;
+}
+
+message UnitRange {
+  google.protobuf.Int32Value min_inclusive = 1;
+  google.protobuf.Int32Value max_inclusive = 2;
+}
+
+message OptionalPrice {
+  int64 list_price_e6 = 1;
+  int64 net_price_e6 = 2;
+  // supplier向け卸値
+  int64 supplier_net_price_e6 = 8;
+
+  oneof commission {
+    int64 value_e6 = 3;
+    int64 rate_e6 = 4;
+  }
+
+  int64 veltra_price_e6 = 5;
+
+  oneof veltra_commission {
+    int64 veltra_value_e6 = 6;
+    int64 veltra_rate_e6 = 7;
+  }
+
+  // for commission_value_e6
+  int64 equivalent_commission_rate_e6 = 9;
+}
+
+// UnitID uniquely identifies a unit. The same unit for different activities
+// will have the same ID.
+message UnitID {
+  Unit.UnitType type = 1;
+  UnitRange range = 2;
+}
+
+// Listing is a group of price information.
+message Listing {
+  currency.Currency.Id currency_code = 1;
+  int64 gross_e6 = 2;
+  int64 net_e6 = 3;
+  int64 gross_discount_e6 = 4;
+  int64 net_discount_e6 = 5;
+  int64 gross_final_e6 = 6;
+  int64 net_final_e6 = 7;
+  int64 supplier_net_final_e6 = 8;
+  int64 min_equivalent_commission_rate_e6 = 9;
+  int64 max_equivalent_commission_rate_e6 = 10;
+  int64 system_charge_e6 = 11;
+  int64 min_equivalent_system_charge_rate_e6 = 12;
+  int64 max_equivalent_system_charge_rate_e6 = 13;
+}
+
+// DetailedListing is an optional price structure breakdown.
+// The contents of this is provided by external APIs, such as VDS Veltra
+// PriceCalc API. Other implementations may choose not to complete these
+// details.
+message DetailedListing {
+  message PromotionUnitInfo {
+    int64 vtr_total_price_e6 = 1;  // Total price (quantity x Price per addon)
+    int64 net_total_price_e6 = 2;
+    int64 vtr_price_e6 = 3;  // Price per addon
+    int64 net_price_e6 = 4;
+    int32 unit_price_id = 5;
+  }
+
+  message Promotion {
+    int32 type_id = 1;
+    string title = 2;  // This is really not the place for this, but Veltra
+                       // returns it and we need it
+    int32 special_deal_id = 3;
+    repeated PromotionUnitInfo unit_infos = 4;
+    string voucher_comment = 5;  // This is really not the place for this, but
+                                 // Veltra returns it and we need it
+  }
+
+  message Addon {
+    int64 vtr_total_price_e6 = 1;  // Total price (quantity x Price per addon)
+    int64 net_total_price_e6 = 2;
+    int64 vtr_price_e6 = 3;  // Price per addon
+    int64 net_price_e6 = 4;
+    int32 ac_add_on_price_id = 5;
+  }
+
+  message Transportation {
+    int64 vtr_total_price_e6 = 1;  // Total price (quantity x Price per addon)
+    int64 net_total_price_e6 = 2;
+    int64 vtr_price_e6 = 3;  // Price per addon
+    int64 net_price_e6 = 4;
+  }
+
+  repeated Promotion promotions = 1;
+  repeated Addon addons = 2;
+  Transportation transportation = 3;
+}
+
+message Refund {
+  // The amount refunded to the traveler
+  int64 to_traveler_e6 = 1;
+  // The amount refunded to the agent, the amount of to_traveler_e6 is included
+  int64 to_agent_e6 = 9;
+  // The amount taken from the supplier
+  int64 from_supplier_e6 = 2;
+  // (Traveler Booking Price - to_traveler_e6): agent cancellation fee
+  int64 withheld_from_traveler_e6 = 3;
+  // (Funds net amount - to_agent_e6): traveler cancellation fee
+  int64 withheld_from_agent_e6 = 10;
+  // (Funds supplier net amount - from_supplier_e6): supplier cancellation fee
+  int64 retained_by_supplier_e6 = 4;
+  // Was this a fixed price refund fee calculation?
+  bool is_fixed = 5;
+  // If not fixed, the percentage used
+  int64 fee_percentage_e6 = 6;
+
+  // For VDS, this will be AcCancellationPolicyId
+  string applied_policy_id = 7;
+  // For VDS, this will be AcCancellationPolicyMultipleId
+  string applied_policy_spec_id = 8;
+  // For request/standby bookings, they are not charged yet, skip the refund
+  bool not_charged = 11;
+}

@@ -1,0 +1,425 @@
+syntax = "proto3";
+
+package common;
+option go_package = "ex/proto/common";
+
+message Locale {
+  string language = 1;
+  string country = 2;
+}
+
+// Deprecated: please use string id
+message Ota {
+  // Deprecated: please use string id
+  enum Id {
+    COMMON = 0;
+    VELTRA = 1;
+    KNT_CT = 2;
+    JTB = 3;
+    NTA = 4;  // 日本旅行
+    HIS = 5;
+    KLOOK = 6;
+    HANA_TOURS = 7;
+    TOURBAKSA = 8;  // 旅行博士
+    MODE_TOUR = 9;
+    NAEIL_TOUR = 10;
+    LION = 12;
+    CHINA_AIRLINES = 13;  // 中華航空
+    LINKTIVITY = 14;      // For testing only
+    HANA_JAPAN = 15;
+    JTB_MY = 16;
+    JTB_SG = 17;
+    SEDUNIA = 18;
+    ARSDREAM = 19;
+    LEON_TRAVEL = 20;
+    PRIVATE = 21;  // OTA just for us (testing purpose).
+    SOCURI = 22;
+    JTB_TW = 23;
+    JP_MOBILE = 24;
+    NTABI = 25;
+    JTB_HK = 26;
+    WAUG = 27;
+    PANORAMA = 28;
+    VOYAGIN = 29;
+    TAS = 30;
+    SEIBU = 31;
+    ECORP = 32;
+    FMJ = 33;
+    JTB_FRANCE = 34;
+    LA_CARTE = 35;
+    DEST_JAPON = 36;
+    DISC_TOUR = 37;
+    DL_HZY = 38;
+    SH_CITIC = 39;
+    ZJ_MIT = 40;
+    HEIWAITC = 41;
+    LY_HIS = 42;
+    HK_EGL = 43;
+    ZJ_ZLZX = 44;
+    MYREALTRIP = 45;
+    LVMAMA = 46;
+    TW_EZTRAVEL = 47;
+    HK_WWPKG = 48;
+    TW_EVERFUN = 49;
+    TW_GGOGO = 50;
+    JTB_PH = 51;
+    HIS_SH = 52;
+    JAL_SATELLITE = 53;
+    UPON_THAILAND = 54;
+    TW_EZFLY = 55;
+    EZ_NIPPON = 56;
+    PACIFIC_TRAVEL = 57;
+    SET_TOUR = 58;
+    CTRIP = 59;
+    LY = 60;
+    KR_INDIGO = 61;
+    INTERPARK_TOUR = 62;
+    TOURBAY = 63;
+    OHMYHOTEL = 64;
+    FUKUN_TRAVEL = 65;
+    KNT_TW = 66;
+    LIFE_TOUR = 67;
+    XXX_Pinatlas = 68;
+    PINATLAS = 69;
+    SPRTOUR_JP = 70;
+    HIS_HK = 71;
+    COLATOUR = 72;
+    SC_PACIFIC = 73;
+    JC = 74;
+    KKDAY = 75;
+    JAP = 76;
+    JPH = 77;
+    LEDA = 78;
+    JENTOUR = 79;
+    ROUTE_VOYAGES = 80;
+    RTG = 81;
+    PRIMEUCD = 82;
+    AGENTBOOKING = 83;
+    HPDL = 84;
+    TIQETS = 85;
+    JTB_AU = 86;
+    WAMAZING = 87;
+    UTOUR = 88;
+    LIFE_JOURNEY = 89;
+    NAVITIME_JAPAN = 90;
+    OMW = 91;
+    DYNASTY_TRAVEL = 92;
+    AIRTEL = 93;
+    TANSEISHA = 94;
+    VELTRA_KOREA = 95;
+    IACE = 96;
+    TRI = 97;
+    TVAIR_TH = 98;
+    ARS_TOKYOMETRO = 99;
+    SKYWARDS = 100;
+    YICHI_TRAVEL = 101;
+    SMI_JAPAN = 102;
+    SMI_THAILAND = 103;
+    MAJOR_TRAVELLER = 104;
+    ARS_KINTETSU = 105;
+    HIS_JP = 106;
+    BOJ = 107;
+    EZ_N_FUN = 108;
+    ATTIC_TOURS = 109;
+    WINDS_OF_JAPAN = 110;
+    ARS_ANA = 111;
+    MEITUAN = 112;
+    GYG = 113;
+    JAPAN_EXPERIENCE = 114;
+    ARS_SKYTREE = 115;
+    AGI_SG = 116;
+    HK_MIXWELL = 117;
+    GHTW = 118;
+    VIATOR = 119;
+    HEADOUT = 120;
+    OCBTRAVEL_JL = 121;
+    SIAMORCHARD = 122;
+    KEIKAKU_FR = 123;
+    CHIUTRAVEL_MY = 124;
+    SWEETBEE_TH = 125;
+    TRAVELCOUP_AG = 126;
+    TOBU_HOTEL = 127;
+    JIDAIYA = 128;
+    EBISUYA_ASAKUSA = 129;
+    PWT_TOUR = 130;
+    ARS_TCVB = 131;
+    SUNROUTE_UENO = 132;
+    SUNROUTE_ASAKUSA = 133;
+    HENNNA_HOTEL = 134;
+    WH_AKIHABARA = 135;
+    HG_TAMACHI = 136;
+    HG_GINZA = 137;
+    HG_ASAKUSA = 138;
+    WH_SHINJUKU_HON = 139;
+    WH_SHINJUKU_SHIN = 140;
+    HG_SHINJUKU = 141;
+    WH_ARIAKE = 142;
+    TV_HAMAMATSUCHO = 143;
+    TV_ASAKUSA = 144;
+    DAIICHI_RYOGOKU = 145;
+    ASAKUSAVIEWHOTEL = 146;
+    ARS_FAMILYNET = 147;
+    THE_TOKYOSTATION = 148;
+    MESM_TOKYO = 149;
+    HM_MARUNOUCHI = 150;
+    HM_KAWASAKI = 151;
+    HM_SAITAMA_SHIN = 152;
+    CREATIVE_TRAVEL = 153;
+    TOPONTOUR = 154;
+    RYOGOKUVIEWHOTEL = 155;
+    KEIHAN_YOTSUYA = 156;
+    KEIHAN_TSUKIJI = 157;
+    KEIHAN_ASAKUSA = 158;
+    PEARL_RYOGOKU = 159;
+    ARS_TOBU_RAILWAY = 160;
+    QUALITYEXPRESS = 161;
+    BCT_TOURISTIK = 162;
+    DAIWA_SHIMBASHI = 163;
+    DAIWA_KYOBASHI = 164;
+    DAIWA_NISHI_SHIN = 165;
+    DAIWA_ARIAKE = 166;
+    MITSUI_GH_UENO = 167;
+    ARS_NANKAI = 168;
+    PRS_HIGASHIGINZA = 169;
+    PRS_KAYABACHO = 170;
+    PRS_SHINJUKU = 171;
+    PRS_OTEMACHI = 172;
+    PRS_KANDA = 173;
+    PRS_GOTANDA = 174;
+    PRS_IKEBUKURO = 175;
+    PRS_AKASAKA = 176;
+    PRS_YAESU = 177;
+    PRS_HAMAMATSUCHO = 178;
+    ARS_MONORAIL = 179;
+    NTH_INDIA = 180;
+    LOTTE_KINSHICHO = 181;
+    ARS_BENEFITONE = 182;
+    RH_OSHIAGE = 183;
+    RH_P_ASAKUSA = 184;
+    RH_ASAKUSA = 185;
+    RH_SUIDOBASHI = 186;
+    RH_MEJIRO = 187;
+    RH_MUSASHINO = 188;
+    RH_TOKYOSHIBA = 189;
+    RH_MUSASHIKOSUGI = 190;
+    RH_YOKOHAMA_B = 191;
+    RH_YOKOHAMAEKI = 192;
+    RIHGAROYAL_TOKYO = 193;
+    VIAINN_ASAKUSA = 194;
+    RPH_SHIODOME = 195;
+    HOTEL_KAIE = 196;
+    RPH_NIHONBASHI = 197;
+    GINZA_CAPITAL = 198;
+    ARS_UCTA = 199;
+    ARS_VIEWTRAVEL = 200;
+    ARS_ANA_X = 201;
+    ARS_JTB_BENEFIT = 202;
+    TOKYOBAY_TOKYU = 203;
+    // Following OTAs were retired.
+    SOKURI_PASS = 11;
+  }
+}
+
+message DocType {
+  enum Id {
+    ACTIVITY = 0;
+    PLAN = 1;
+    PLAN_ITEM = 2;
+
+    AVAILABILITY = 3;
+
+    REVIEW = 4;
+
+    PROMOTION = 5;
+
+    BOOKING = 6;
+
+    TRANSACTION = 7;
+
+    // RESOURCE = 4;
+    // RESOURCE_GROUP = 5;
+  }
+}
+
+message Backend {
+  enum Id {
+    VELTRA_DEPRECATED = 0;
+
+    // Data from this backend is for internal use only. Mainly used for sanity
+    // test in the live cluster.
+    PRIVATE = 1;
+    LINKTIVITY = 2;
+    JBUS = 3;
+    KAIYUKAN = 4;  // deprecated, use tickethub
+    VIEW = 5;
+    BUNDLE = 6;
+    DMMKA = 7;
+    TICKETHUB = 8;
+    JRKYUSHU = 9;
+    MERLIN = 10;
+    KEIHANBUS = 11;
+    KINTETSU = 12;
+    VDS = 13;
+    SANRIO = 14;
+    DMMTEAMLAB = 15;
+    HATOBUS = 16;
+    SEC = 17;
+    GALAXYCONNECT = 18;
+    NANKAI = 19;
+    LIMOUSINE = 20;
+    YANOLJA = 21;
+    TEAMLAB = 22;
+    QMOVE = 23;
+    SAGANO = 25;
+    MEITETSU = 26;
+    HAMAJIMA = 27;
+    SKYHOP = 28;
+    SURUTTO = 29;
+    CIRQUE = 30;
+    RAILEUROPE = 31;
+    AREX = 33;
+    SANSANSUN = 34;
+    KEIOSRS = 35;
+    DOCOTICK = 36;
+    NIPPONSIGNAL = 37;
+    SMARTT = 38;
+    JTBGMT = 40;
+  }
+}
+
+message Docid {
+  string backend_id = 1;
+}
+
+// VersionedDocid is a docid with version.
+message VersionedDocid {
+  Docid docid = 1;
+  int64 version = 2;
+}
+
+message RequestContext {
+  // Deprecated: please use ota_id
+  Ota.Id deprecated_ota = 1;
+
+  // Optional fallback context. This is used when document with the given `ota`
+  // and `locale` was not found. Note that this is used only read time.
+  RequestContext fallback = 3;
+}
+
+message DescriptiveText {
+  enum TextType {
+    MEMO = 0;
+
+    // * ac_activities.site_activity_name. to TranslatedText
+    // ac_activities.partner_activity_name
+    // * ac_h_packages.site_package_name.  to TranslatedText
+    // ac_h_packages.partner_package_name
+    // * ac_additional_infos.title.        to TranslatedText
+    // ac_additional_infos.title_for_partner
+    // * ac_booking_fields.name.           to TranslatedText
+    // ac_booking_fields.name_for_partner
+    // * ac_tour_schedules.what_where.
+    // * m_additional_info_langs.name.     to TranslatedText
+    // m_additional_info_langs.name(en)
+    // * m_booking_field_langs.name.       to TranslatedText
+    // m_booking_field_langs.name(en)
+    TITLE = 1;
+
+    // * ac_activities.description_basic. + ac_activities.detailed_description.
+    // * ac_h_packages.description.
+    // * ac_booking_fields.note.                         to TranslatedText
+    // ac_booking_fields.note_for_partner
+    // * ac_booking_field_choices.name.                  to TranslatedText
+    // ac_booking_field_choices.name_for_partner
+    // * ac_cancellation_policies.cancellation_schedule. to TranslatedText
+    // ac_cancellation_policies.cancellation_schedule_for_partner
+    // * ac_drop_off_notes.description.
+    // * ac_other_notes.description.
+    // * ac_pick_up_notes.description.
+    // * ac_tour_schedules.description.
+    // * m_booking_field_langs.note.                     to TranslatedText
+    // m_booking_field_langs.note(en)
+    // * m_booking_field_choice_langs.name.              to TranslatedText
+    // m_booking_field_choice_langs.name(en)
+    // * ac_schedule_starting_options.description.       to TranslatedText
+    // ac_schedule_starting_options.translation
+    DESCRIPTION = 2;
+
+    // * ac_activities.html_content
+    // * ac_h_packages.description2
+    DESCRIPTION_HTML = 3;
+
+    ACTIVITY_CODE = 4;           // ac_activities.activity_code
+    PRICES_DISPLAYED_NOTE = 5;   // ac_activities.price_note
+    SEO_TITLE = 6;               // ac_activities.seo_title
+    SEO_SEARCH_KEYWORD = 7;      // ac_activities.search_keyword
+    PLAN_CODE = 8;               // ac_h_packages.package_code
+    SUPPLIER_ACTIVITY_CODE = 9;  // ac_h_packages.partner_activity_code
+    PUBLICATION = 10;            // ac_activities.featured_publication
+
+    DURATION = 11;  // ac_tour_schedules.duration
+  }
+
+  TextType type = 1;
+  string text = 2;
+}
+
+message TranslatedText {
+  // the translated text in the target locale.
+  // empty if the target translation isn't available
+  DescriptiveText descriptive_text = 1;
+
+  // the locale string the original message was in (e.g. 'en_US')
+  string source_locale = 2;
+
+  // the locale string the message was translated to (e.g. 'de_DE')
+  string target_locale = 3;
+}
+
+message TimeSpanText {
+  string text = 1;
+  string time_span = 2;
+}
+
+message DateRangeText {
+  string text = 1;
+}
+
+message LatLng {
+  float lat = 1;
+  float lng = 2;
+}
+
+message Area {
+  // TODO: parent?
+  string name = 1;
+  string name_for_supplier = 4;
+  string description = 2;
+  string description_for_supplier = 5;
+  repeated common.LatLng geo_polygons = 3;
+  // TODO: more fields
+}
+
+message Location {
+  // Coordinates of the location
+  common.LatLng lat_lng = 1;
+  string name = 2;
+  string name_for_supplier = 5;
+  // A textual description of the location.
+  string description = 3;
+  string description_for_supplier = 6;
+  // A physical address, e.g. a street address.
+  string address = 4;
+  string address_for_supplier = 7;
+}
+
+message RestrictionList {
+  enum Type {
+    UNDEFINED = 0;
+    BLACK_LIST = 1;
+    WHITE_LIST = 2;
+  }
+  Type type = 1;
+  repeated Docid docids = 2;
+  common.DocType.Id doc_type = 3;
+}

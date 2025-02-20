@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package activitypricesetting;
+option go_package = "ex/proto/activitypricesetting";
+
+import "common/common.proto";
+import "pricing/pricing.proto";
+
+message PriceSetting {
+  common.Docid plan_docid = 1;
+  common.Locale locale = 2;
+  string ota_id = 3;
+
+  repeated pricing.PricingInfo price_infos = 4;
+  reserved 5, 6;
+  // repeated activity.OptionalPricingInfo addon_pricing_infos = 7;
+  // repeated activity.OptionalPricingInfo transportation_pricing_infos = 8;
+
+  int64 version = 7;
+}
